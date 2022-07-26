@@ -5,5 +5,5 @@ if [ "$ENV" != "heroku" ]; then
 fi
 if [ "$ENV" = "heroku" ]; then
   python manage.py collectstatic --noinput;
-  gunicorn stock_market.wsgi:application --bind 0.0.0.0:$PORT;
+  gunicorn stock_market.wsgi:application --bind 0.0.0.0:$PORT --access-logfile -;
 fi
