@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import generics
-from rest_framework.exceptions import APIException
+from rest_framework.exceptions import ValidationError
 
 from rest_framework.permissions import AllowAny
 
@@ -36,7 +36,7 @@ class SignUpSerializer(serializers.Serializer):
                 last_name=validated_data['last_name']
             )
         except IncorrectPasswordError:
-            raise APIException("INCORRECT_PASSWORD")
+            raise ValidationError({"error_code": "INCORRECT_PASSWORD"})
 
         return response
 
