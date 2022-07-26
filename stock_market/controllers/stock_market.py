@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from stock_market.controllers.utils import TokenAuthentication
 from stock_market.services.stock_market import get_stock_data, InvalidSymbolError
-from rest_framework.permissions import AllowAnyIsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 
 class StockMarketSerializer(serializers.Serializer):
@@ -23,7 +23,7 @@ class StockMarketSerializer(serializers.Serializer):
 
 
 class StockMarketAPIView(APIView):
-    permission_classes = (AllowAnyIsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
     authentication_classes = (TokenAuthentication,)
 
     def get(self, request, symbol):
