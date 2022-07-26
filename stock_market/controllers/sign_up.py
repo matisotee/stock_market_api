@@ -6,6 +6,9 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny
 
 from stock_market.services.sign_up import sign_up, IncorrectPasswordError
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
+from django.utils.decorators import method_decorator
 
 
 class SignUpSerializer(serializers.Serializer):
@@ -41,6 +44,23 @@ class SignUpSerializer(serializers.Serializer):
         return response
 
 
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    request_body=SignUpSerializer,
+    responses={
+        201: openapi.Response(
+            description='',
+            schema=openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'email': openapi.Schema(type=openapi.TYPE_STRING),
+                    'name': openapi.Schema(type=openapi.TYPE_STRING),
+                    'last_name': openapi.Schema(type=openapi.TYPE_STRING),
+                    'api_key': openapi.Schema(type=openapi.TYPE_STRING),
+                }
+            )
+        ),
+    }
+))
 class SignUpAPIView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = SignUpSerializer
